@@ -46,12 +46,13 @@ func (m *ProMgr) Has() bool {
 func processHas(mode string, name string) bool {
 	var cmd *exec.Cmd
 	var cli string
-	if mode == "linux" {
-		cli = "ps aux|grep " + name + "|grep -v grep"
-		cmd = exec.Command("/bin/bash", "-c", cli)
-	} else {
+	if mode == "windows" {
 		cli = "tasklist|find " + name + ""
 		cmd = exec.Command("cmd.exe", "/C", cli)
+
+	} else {
+		cli = "ps aux|grep " + name + "|grep -v grep"
+		cmd = exec.Command("/bin/bash", "-c", cli)
 
 	}
 	var out bytes.Buffer

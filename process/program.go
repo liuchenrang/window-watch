@@ -26,7 +26,7 @@ func (p *Program) Start() {
 	p.startTimes++
 	if p.startTimes <= 1 || p.CanTryStart() {
 		var cmd *exec.Cmd
-		if p.mode == "linux" {
+		if p.mode == "windows" {
 			cmd = exec.Command(p.info.Name)
 		} else {
 			cmd = exec.Command(p.info.Name)
