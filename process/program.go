@@ -1,7 +1,6 @@
 package process
 
 import (
-	"bytes"
 	"os/exec"
 	"time"
 
@@ -29,25 +28,25 @@ func (p *Program) Start() {
 		if p.mode == "linux" {
 			cmd = exec.Command(p.info.Name)
 		} else {
-			cmd = exec.Command("explorer.exe", p.info.Name)
+			cmd = exec.Command(p.info.Name)
 		}
-		var out bytes.Buffer
-		var stdErr bytes.Buffer
-		cmd.Stdout = &out
-		cmd.Stderr = &stdErr
+		// var out bytes.Buffer
+		// var stdErr bytes.Buffer
+		// cmd.Stdout = &out
+		// cmd.Stderr = &stdErr
 		err := cmd.Run()
 		Logger.Infof("run path %s", p.info.Path)
 		if err != nil {
 			Logger.Errorf("error %s", err)
 		} else {
-			Logger.Infof("result \r\n %s", out.String())
+			// Logger.Infof("result \r\n %s", out.String())
 		}
-		errLen := len(stdErr.String())
-		if errLen > 0 {
-			Logger.Errorf("result stdErr \r\n  %s", stdErr.String())
-		} else {
-			Logger.Infof("result no error ")
-		}
+		// errLen := len(stdErr.String())
+		// if errLen > 0 {
+		// Logger.Errorf("result stdErr \r\n  %s", stdErr.String())
+		// } else {
+		// Logger.Infof("result no error ")
+		// }
 	} else {
 		Logger.Infof("wait start %+v", p.info)
 	}

@@ -3,7 +3,7 @@ interval: 1
 mode: "linux"
 programs:
   key: 
-    path: /usr/local/opt/redis/bin/redis-server &
+    path: /usr/local/opt/redis/bin/redis-server
     name: redis-server
   mv:
     path: /bin/mv

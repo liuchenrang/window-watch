@@ -51,7 +51,7 @@ func processHas(mode string, name string) bool {
 		cmd = exec.Command("/bin/bash", "-c", cli)
 	} else {
 		cli = "tasklist|find " + name + ""
-		cmd = exec.Command("cmd.exe", cli)
+		cmd = exec.Command("cmd.exe", "/C", cli)
 
 	}
 	var out bytes.Buffer
