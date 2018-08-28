@@ -1,11 +1,11 @@
 package watch
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/window-watch/config"
 	"github.com/window-watch/contract"
+	. "github.com/window-watch/logger"
 )
 
 type Dog struct {
@@ -24,14 +24,15 @@ func (d *Dog) Start(interval int, watch config.CWatch) {
 	for {
 		select {
 		case <-timer.C:
-			fmt.Printf("has %s \r\n", d.mgr.Has())
+			Logger.Info("has %s \r\n", d.mgr.Has())
 			for d.mgr.Has() {
 				process := d.mgr.Get()
-				fmt.Printf("process status %t %+v  \r\n", process.Alive(), process)
 
 				if !process.Alive() {
-					fmt.Printf("start program %+v\r\n", process)
+					Logger.Info("start program %+v\r\n", process)
 					process.Start()
+				} else {
+					Logger.Info("already runing %+v", process)
 				}
 				d.mgr.Next()
 			}

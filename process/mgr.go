@@ -2,14 +2,13 @@ package process
 
 import (
 	"bytes"
-	"fmt"
 	"os/exec"
 	"strings"
 	"time"
 
-	"github.com/window-watch/contract"
-
 	"github.com/window-watch/config"
+	"github.com/window-watch/contract"
+	. "github.com/window-watch/logger"
 )
 
 type ProMgr struct {
@@ -26,14 +25,14 @@ func (m *ProMgr) Init(config config.CWatch) {
 }
 func (m *ProMgr) Register() {
 	for k, v := range m.config.Programs {
-		fmt.Printf("k %s v %+v \r\n", k, v)
+		Logger.Info("k %s v %+v \r\n", k, v)
 		pp := Program{}
 		pp.info = v
 		pp.timer = time.NewTicker(1 * time.Second)
 		pp.Alive()
 		m.programs = append(m.programs, pp)
 	}
-	fmt.Println("register %+v", m.programs)
+	Logger.Info("register %+v", m.programs)
 	m.processTotal = len(m.programs)
 }
 func (m *ProMgr) Has() bool {
@@ -50,11 +49,13 @@ func processHas(name string) bool {
 	cmd.Stdout = &out
 	cmd.Stderr = &err
 	ee1 := cmd.Run()
-	fmt.Printf("process run cli  %s \r\n", cli)
+	Logger.Infof("process run cli  %s \r\n", cli)
 
-	fmt.Printf("process check stdOut %s \r\n", out.String())
-	fmt.Printf("process check stdErr %s \r\n", err.String())
-	fmt.Printf("process run ee1  %s \r\n", ee1)
+	Logger.Infof("process check stdOut \r\n %s \r\n", out.String())
+	Logger.Infof("process check stdErr \r\n  %s \r\n", err.String())
+	if ee1 != nil {
+		Logger.Errorf("process run ee1  %s \r\n", ee1)
+	}
 	return strings.Contains(out.String(), name)
 }
 func (m *ProMgr) Next() {

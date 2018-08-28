@@ -2,7 +2,6 @@ package process
 
 import (
 	"bytes"
-	"fmt"
 	"os/exec"
 	"strings"
 	"time"
@@ -10,6 +9,7 @@ import (
 	"github.com/window-watch/contract"
 
 	"github.com/window-watch/config"
+	. "github.com/window-watch/logger"
 )
 
 type Program struct {
@@ -32,25 +32,25 @@ func (p *Program) Start() {
 		cmd.Stdout = &out
 		cmd.Stderr = &stdErr
 		err := cmd.Run()
-		fmt.Println("run path %s", p.info.Path)
+		Logger.Infof("run path %s", p.info.Path)
 		if err != nil {
-			fmt.Errorf("error %s", err)
+			Logger.Errorf("error %s", err)
 		} else {
-			fmt.Printf("result %s", out.String())
+			Logger.Infof("result \r\n %s", out.String())
 		}
 		errLen := len(stdErr.String())
 		if errLen > 0 {
-			fmt.Println("result stdErr %s", stdErr.String())
+			Logger.Errorf("result stdErr \r\n  %s", stdErr.String())
 		} else {
-			fmt.Println("result no error ")
+			Logger.Infof("result no error ")
 		}
 	} else {
-		fmt.Println("wait start %+v", p.info)
+		Logger.Infof("wait start %+v", p.info)
 	}
 
 }
 func (p *Program) CanTryStart() bool {
-	return true
+	return p.startTimes%3 == 0
 }
 func (p *Program) Alive() bool {
 	//checkAlive
