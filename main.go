@@ -1,11 +1,13 @@
 package main
 
 import (
+	"flag"
 	"fmt"
+	"os"
+	"path/filepath"
 	"strconv"
 
 	"github.com/window-watch/config"
-	"github.com/window-watch/contract"
 	"github.com/window-watch/process"
 	"github.com/window-watch/watch"
 )
@@ -27,20 +29,30 @@ func (r *IntRead) Start() {
 // func Output(r Read) {
 // 	fmt.Printf("read %s", r.read(3))
 // }
-func Output2(r contract.IProcess) {
-	r.Start()
-}
+// func Output2(r contract.IProcess) {
+// 	r.Start()
+// }
+var (
+	configFlag = flag.String("c", "", "config file path")
+)
 
 func main() {
+	flag.Parse()
+
+	path, _ := filepath.Abs(filepath.Dir(os.Args[0]))
+	defaultConfigPath := path + "/watch.yaml"
+	configPath := *configFlag
+	if *configFlag == "" {
+		configPath = defaultConfigPath
+	}
 	// rd := IntRead{t: 4}
 	// Output(rd)
 
 	// var lt contract.IProcess
 	// lt = &IntRead{}
 	// Output2(lt)
-	file := "/usr/local/Cellar/go/gopath/src/github.com/window-watch/watch.yaml"
 
-	config := config.NewWatch(file)
+	config := config.NewWatch(configPath)
 	dog := watch.NewDog()
 	mgr := process.NewMgr()
 	dog.SetProMgr(mgr)
