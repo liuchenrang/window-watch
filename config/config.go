@@ -3,7 +3,7 @@ package config
 import (
 	"io/ioutil"
 
-	. "github.com/window-watch/logger"
+	. "github.com/liuchenrang/window-watch/logger"
 	"gopkg.in/yaml.v2"
 )
 

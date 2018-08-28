@@ -6,10 +6,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/window-watch/contract"
+	"github.com/liuchenrang/window-watch/contract"
 
-	"github.com/window-watch/config"
-	. "github.com/window-watch/logger"
+	"github.com/liuchenrang/window-watch/config"
+	. "github.com/liuchenrang/window-watch/logger"
 )
 
 type Program struct {

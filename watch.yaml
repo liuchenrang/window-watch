@@ -1,5 +1,6 @@
 version: "1.0"
 interval: 1
+mode: "windows"
 programs:
   key: 
     path: /usr/local/opt/redis/bin/redis-server &

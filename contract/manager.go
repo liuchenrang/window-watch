@@ -1,6 +1,6 @@
 package contract
 
-import "github.com/window-watch/config"
+import "github.com/liuchenrang/window-watch/config"
 
 type IManager interface {
 	Init(config config.CWatch)
