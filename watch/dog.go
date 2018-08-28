@@ -30,7 +30,7 @@ func (d *Dog) Start(interval int, watch config.CWatch) {
 
 				if !process.Alive() {
 					Logger.Info("start program %+v\r\n", process)
-					process.Start()
+					go process.Start()
 				} else {
 					Logger.Info("already runing %+v", process)
 				}
