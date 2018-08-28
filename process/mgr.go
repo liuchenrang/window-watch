@@ -32,8 +32,9 @@ func (m *ProMgr) Register() {
 		pp.Alive()
 		m.programs = append(m.programs, pp)
 	}
-	Logger.Info("register %+v", m.programs)
 	m.processTotal = len(m.programs)
+	Logger.Infof("register %d %+v", m.processTotal, m.programs)
+
 }
 func (m *ProMgr) Has() bool {
 	if m.cursor >= m.processTotal {
@@ -69,6 +70,6 @@ func (m *ProMgr) Get() contract.IProcess {
 	return &pr
 }
 func NewMgr() *ProMgr {
-	mgr := ProMgr{programs: make([]Program, 0)}
+	mgr := ProMgr{programs: make([]Program, 0), processTotal: 0, cursor: 0}
 	return &mgr
 }

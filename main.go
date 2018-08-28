@@ -44,5 +44,5 @@ func main() {
 	dog := watch.NewDog()
 	mgr := process.NewMgr()
 	dog.SetProMgr(mgr)
-	dog.Start(3, config)
+	dog.Start(config.Interval, config)
 }

@@ -3,6 +3,7 @@ package config
 import (
 	"io/ioutil"
 
+	. "github.com/window-watch/logger"
 	"gopkg.in/yaml.v2"
 )
 
@@ -16,5 +17,6 @@ func NewWatch(file string) CWatch {
 	if err != nil {
 		panic(err)
 	}
+	Logger.Infof("config %+v", watch)
 	return watch
 }

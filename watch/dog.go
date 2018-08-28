@@ -20,11 +20,11 @@ func (d *Dog) SetProMgr(mgr contract.IManager) {
 }
 func (d *Dog) Start(interval int, watch config.CWatch) {
 	d.mgr.Init(watch)
-	timer := time.NewTicker(1 * time.Second)
+	timer := time.NewTicker(time.Duration(interval) * time.Second)
 	for {
 		select {
 		case <-timer.C:
-			Logger.Info("has %s \r\n", d.mgr.Has())
+			Logger.Infof("has %s \r\n", d.mgr.Has())
 			for d.mgr.Has() {
 				process := d.mgr.Get()
 
