@@ -3,7 +3,6 @@ package process
 import (
 	"bytes"
 	"os/exec"
-	"strings"
 	"time"
 
 	"github.com/liuchenrang/window-watch/contract"
@@ -17,6 +16,7 @@ type Program struct {
 	status     int
 	startTimes int
 	timer      *time.Ticker
+	mode       string
 }
 
 func (p *Program) Stop() {
@@ -25,8 +25,12 @@ func (p *Program) Stop() {
 func (p *Program) Start() {
 	p.startTimes++
 	if p.startTimes <= 1 || p.CanTryStart() {
-		cmd := exec.Command(p.info.Name)
-		cmd.Stdin = strings.NewReader("/tmp")
+		var cmd *exec.Cmd
+		if p.mode == "linux" {
+			cmd = exec.Command(p.info.Name)
+		} else {
+			cmd = exec.Command("explorer.exe", p.info.Name)
+		}
 		var out bytes.Buffer
 		var stdErr bytes.Buffer
 		cmd.Stdout = &out
@@ -54,7 +58,7 @@ func (p *Program) CanTryStart() bool {
 }
 func (p *Program) Alive() bool {
 	//checkAlive
-	if processHas(p.info.Name) {
+	if processHas(p.mode, p.info.Name) {
 		p.status = contract.STARTING
 	} else {
 		p.status = contract.STOPING

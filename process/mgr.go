@@ -27,6 +27,7 @@ func (m *ProMgr) Register() {
 	for k, v := range m.config.Programs {
 		Logger.Info("k %s v %+v \r\n", k, v)
 		pp := Program{}
+		pp.mode = m.config.Mode
 		pp.info = v
 		pp.timer = time.NewTicker(1 * time.Second)
 		pp.Alive()
@@ -42,9 +43,17 @@ func (m *ProMgr) Has() bool {
 	}
 	return true
 }
-func processHas(name string) bool {
-	cli := "ps aux|grep " + name + "|grep -v grep"
-	cmd := exec.Command("/bin/bash", "-c", cli)
+func processHas(mode string, name string) bool {
+	var cmd *exec.Cmd
+	var cli string
+	if mode == "linux" {
+		cli = "ps aux|grep " + name + "|grep -v grep"
+		cmd = exec.Command("/bin/bash", "-c", cli)
+	} else {
+		cli = "tasklist|find " + name + ""
+		cmd = exec.Command("cmd.exe", cli)
+
+	}
 	var out bytes.Buffer
 	var err bytes.Buffer
 	cmd.Stdout = &out
