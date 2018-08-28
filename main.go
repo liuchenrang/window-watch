@@ -2,8 +2,10 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"os"
 	"path/filepath"
+	"runtime"
 
 	"github.com/liuchenrang/window-watch/config"
 	"github.com/liuchenrang/window-watch/process"
@@ -23,7 +25,7 @@ func main() {
 	if *configFlag == "" {
 		configPath = defaultConfigPath
 	}
-
+	fmt.Printf("%s", runtime.GOOS)
 	config := config.NewWatch(configPath)
 	dog := watch.NewDog()
 	mgr := process.NewMgr()

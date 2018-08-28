@@ -2,6 +2,7 @@ package process
 
 import (
 	"os/exec"
+	"runtime"
 	"time"
 
 	"github.com/liuchenrang/window-watch/contract"
@@ -57,7 +58,7 @@ func (p *Program) CanTryStart() bool {
 }
 func (p *Program) Alive() bool {
 	//checkAlive
-	if processHas(p.mode, p.info.Name) {
+	if processHas(runtime.GOOS, p.info.Name) {
 		p.status = contract.STARTING
 	} else {
 		p.status = contract.STOPING
