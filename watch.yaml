@@ -1,0 +1,9 @@
+version: "1.0"
+programs:
+  key: 
+    path: /usr/local/opt/redis/bin/redis-server &
+    name: redis-server
+  mv:
+    path: /bin/mv
+    name: mv
+Port: 8001
