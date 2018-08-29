@@ -23,7 +23,6 @@ func main() {
 	if *configFlag == "" {
 		configPath = defaultConfigPath
 	}
-
 	config := config.NewWatch(configPath)
 	dog := watch.NewDog()
 	mgr := process.NewMgr()

@@ -27,7 +27,6 @@ func (m *ProMgr) Register() {
 	for k, v := range m.config.Programs {
 		Logger.Info("k %s v %+v \r\n", k, v)
 		pp := Program{}
-		pp.mode = m.config.Mode
 		pp.info = v
 		pp.timer = time.NewTicker(1 * time.Second)
 		pp.Alive()
