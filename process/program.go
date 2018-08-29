@@ -1,8 +1,8 @@
 package process
 
 import (
-	"bytes"
-	"os/exec"
+	"fmt"
+	"os"
 	"runtime"
 	"time"
 
@@ -26,29 +26,44 @@ func (p *Program) Stop() {
 func (p *Program) Start() {
 	p.startTimes++
 	if p.startTimes <= 1 || p.CanTryStart() {
-		var cmd *exec.Cmd
-		if p.mode == "windows" {
-			cmd = exec.Command(p.info.Name)
-		} else {
-			cmd = exec.Command(p.info.Name)
+		// var cmd *exec.Cmd
+		// if p.mode == "windows" {
+		// 	cmd = exec.Command(p.info.Name)
+		// } else {
+		// 	cmd = exec.Command(p.info.Name)
+		// }
+		// var out bytes.Buffer
+		// var stdErr bytes.Buffer
+		// cmd.Stdout = &out
+		// cmd.Stderr = &stdErr
+		// err := cmd.Run()
+		// Logger.Infof("run path %s", p.info.Path)
+		// if err != nil {
+		// 	Logger.Errorf("error %s", err)
+		// } else {
+		// 	Logger.Infof("result \r\n %s", out.String())
+		// }
+		// errLen := len(stdErr.String())
+		// if errLen > 0 {
+		// 	Logger.Errorf("result stdErr \r\n  %s", stdErr.String())
+		// } else {
+		// 	Logger.Infof("result no error ")
+		// }
+		env := os.Environ()
+		procAttr := &os.ProcAttr{
+			Env: env,
+			Files: []*os.File{
+				os.Stdin,
+				os.Stdout,
+				os.Stderr,
+			},
 		}
-		var out bytes.Buffer
-		var stdErr bytes.Buffer
-		cmd.Stdout = &out
-		cmd.Stderr = &stdErr
-		err := cmd.Run()
-		Logger.Infof("run path %s", p.info.Path)
+		pid, err := os.StartProcess(p.info.Path, []string{}, procAttr)
 		if err != nil {
-			Logger.Errorf("error %s", err)
-		} else {
-			Logger.Infof("result \r\n %s", out.String())
+			fmt.Printf("Error %v starting process!", err) //
+			os.Exit(1)
 		}
-		errLen := len(stdErr.String())
-		if errLen > 0 {
-			Logger.Errorf("result stdErr \r\n  %s", stdErr.String())
-		} else {
-			Logger.Infof("result no error ")
-		}
+		fmt.Printf("The process id is %v", pid)
 	} else {
 		Logger.Infof("wait start %+v", p.info)
 	}
