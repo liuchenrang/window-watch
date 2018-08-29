@@ -1,6 +1,5 @@
 version: "1.0"
 interval: 3
-mode: "linux"
 programs:
   key: 
     path: /usr/local/opt/redis/bin/redis-server

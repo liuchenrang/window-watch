@@ -47,9 +47,8 @@ func processHas(mode string, name string) bool {
 	var cmd *exec.Cmd
 	var cli string
 	if mode == "windows" {
-		cli = "tasklist|find " + name + ""
+		cli = "tasklist|findstr " + name + ""
 		cmd = exec.Command("cmd", "/C", cli)
-
 	} else {
 		cli = "ps aux|grep " + name + "|grep -v grep"
 		cmd = exec.Command("/bin/bash", "-c", cli)
